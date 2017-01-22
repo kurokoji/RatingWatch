@@ -9,10 +9,49 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- jQuery読み込み -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
     <!-- BootstrapのJS読み込み -->
     <script src="js/bootstrap.min.js"></script>
+    <!-- jquery.xdomainajax.js -->
+    <!-- scriptタグも含むよう改造 -->
+    <script src="js/jquery.xdomainajax.js"></script>
+
     <link rel="stylesheet" href="./css/simple-sidebar.css" />
     <link rel="stylesheet" href="./css/my.css" />
+
+    <script type="text/javascript">
+      function scrapingAtcoder() {
+        var usrname = document.getElementById("atcoderid");
+        $.ajax({
+          type: 'GET',
+          url: "https://atcoder.jp/user/" + usrname.value,
+          dataType: 'html',
+          success: function(data) {
+            var src = data.responseText;
+            var jsonStr = getAtcoderJSON(src);
+            if (jsonStr == null) {
+              alert("ユーザ名が空，もしくは間違っています");
+              return;
+            }
+            var rating_history = JSON.parse(jsonStr);
+            console.log(rating_history[0][1]);
+          }, error:function(e) {
+            console.log(e);
+          }
+        });
+      }
+
+      function getAtcoderJSON(src) {
+        var idxf = src.indexOf('JSON.parse("');
+        var idxe = src.indexOf('");]]>', idxf);
+        if (idxf != -1 && idxe != -1) {
+          // バックスラッシュ(円マーク)取り除かないとダメ
+          return src.slice(idxf + 12, idxe).replace(/\\/g, "");
+        }
+        return null;
+      }
+
+    </script>
   </head>
 
   <body>
@@ -40,10 +79,13 @@
             </a>
           </li>
           <div class="form-inline">
-            <!-- ID入力フォーム -->
-            <input type="text" class="form-control" id="atcoderid" placeholder="User ID" />
-            <!-- Showボタン -->
-            <button type="button" class="btn btn-success">Show</button>
+            <form>
+              <!-- ID入力フォーム -->
+              <input type="text" class="form-control" id="atcoderid" placeholder="User ID" />
+              <!-- Showボタン -->
+              <!--<button type="button" class="btn btn-success" id="show" onclick="scrapingAtcoder()">Show</button>-->
+              <input type="submit" value="Show" class="btn btn-secondary user-form" data-disable-with="Show" onclick="scrapingAtcoder()" />
+            </form>
           </div>
         </ul>
       </div>
