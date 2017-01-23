@@ -9,6 +9,8 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- jQuery読み込み -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!--Chart.js読み込み-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
     <!-- BootstrapのJS読み込み -->
     <script src="js/bootstrap.min.js"></script>
@@ -18,7 +20,7 @@
 
     <link rel="stylesheet" href="./css/simple-sidebar.css" />
     <link rel="stylesheet" href="./css/my.css" />
-
+    
     <script type="text/javascript">
       function scrapingAtcoder() {
         var usrname = document.getElementById("atcoderid");
@@ -39,6 +41,7 @@
             console.log(e);
           }
         });
+        drawGraph(0, 0, 0);
       }
 
       function getAtcoderJSON(src) {
@@ -49,6 +52,21 @@
           return src.slice(idxf + 12, idxe).replace(/\\/g, "");
         }
         return null;
+      }
+
+      function drawGraph(rating, contest, name) {
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+          type: 'line',           //グラフの種類
+          data: {
+            labels: ['a', 'b'],   //グラフの項目名(contest)
+            datasets: [{
+              label: name,        //グラフの名前(name)
+              data: [10, 20],     //項目のデータ(rating)
+              backgroundColor: "rgba(153,255,51,0.4)"   //線の下の色
+            }]
+          }
+        });
       }
 
     </script>
@@ -96,6 +114,7 @@
           <div class="row">
             <div class="col-lg-12">
               <p>Shinobu</p>
+              <canvas id="myChart" width="640" height="360"></canvas> <!--グラフ描写領域-->
             </div>
           </div>
         </div>
