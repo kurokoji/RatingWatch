@@ -90,7 +90,18 @@
             }]
           },
           options: {
-            responsive: false
+            scales: {
+              yAxes: [
+                {
+                  ticks: {
+                    beginAtZero: true,
+                    min: 0,
+                    max: 4000
+                  }
+                }
+              ]
+            },
+            responsive: false,
           }
         });
       }
