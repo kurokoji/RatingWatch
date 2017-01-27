@@ -22,11 +22,10 @@
     <link rel="stylesheet" href="./css/my.css" />
     
     <script type="text/javascript">
-      function scrapingAtcoder() {
-        var usrname = document.getElementById("atcoderid");
+      function scrapingAtcoder(userid) {
         $.ajax({
           type: 'GET',
-          url: "https://atcoder.jp/user/" + usrname.value,
+          url: "https://atcoder.jp/user/" + userid,
           dataType: 'html',
           success: function(data) {
             var src = data.responseText;
@@ -37,7 +36,7 @@
             }
             var rating_history = JSON.parse(jsonStr);
             console.log(rating_history[0][1]);
-            drawGraph(rating_history, usrname.value);
+            drawGraph(rating_history, userid);
           }, error:function(e) {
             console.log(e);
           }
@@ -53,6 +52,17 @@
         }
         return null;
       }
+
+      $(document).ready(function retrieveGETqs() {
+        var query = window.location.search.substring(1);
+        var parms = query.split('&');
+        var names = parms[0].slice(parms[0].indexOf('=') + 1).split('+');
+        for (var i = 0; i < names.length; ++i) {
+          console.log(names[i]);
+          scrapingAtcoder(names[i]);
+        }
+        console.log("hoge");
+      });
 
       function drawGraph(rating_history, name) {
         var ctx = document.getElementById('myChart').getContext('2d');
@@ -110,12 +120,13 @@
             </a>
           </li>
           <div class="form-inline">
-            <form>
+            <form method="GET">
               <!-- ID入力フォーム -->
-              <input type="text" class="form-control" id="atcoderid" placeholder="User ID" />
+              <input type="text" class="form-control" name="usr" id="atcoderid" placeholder="User ID" />
               <!-- Showボタン -->
-              <button type="button" class="btn btn-success" id="show" onclick="scrapingAtcoder()">Show</button>
-              <!--<input type="submit" value="Show" class="btn btn-secondary user-form" data-disable-with="Show" onclick="scrapingAtcoder()" />-->
+              <!--<button type="button" class="btn btn-success" id="show" onclick="scrapingAtcoder()">Show</button>-->
+              <input type="submit" value="Show" class="btn btn-secondary user-form" data-disable-with="Show" />
+              <!--
               <script>
                 $(function(){
                   $("input").keydown(function(e){
@@ -128,6 +139,7 @@
                   });
                 });
               </script>
+              -->
             </form>
           </div>
         </ul>
