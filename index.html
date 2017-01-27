@@ -57,9 +57,12 @@
         var query = window.location.search.substring(1);
         var parms = query.split('&');
         var names = parms[0].slice(parms[0].indexOf('=') + 1).split('+');
+        console.log(names);
         for (var i = 0; i < names.length; ++i) {
           console.log(names[i]);
-          scrapingAtcoder(names[i]);
+          if (names[i] != "") {
+            scrapingAtcoder(names[i]);
+          }
         }
         console.log("hoge");
       });
