@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="./css/my.css" />
     
     <script type="text/javascript">
-      function scrapingAtcoder(userid) {
+      function scrapingAtcoder(userid, cb) {
         $.ajax({
           type: 'GET',
           url: "https://atcoder.jp/user/" + userid,
@@ -35,8 +35,7 @@
               return;
             }
             var rating_history = JSON.parse(jsonStr);
-            console.log(rating_history[0][1]);
-            drawGraph(rating_history, userid);
+            cb(rating_history);
           }, error:function(e) {
             console.log(e);
           }
@@ -58,26 +57,26 @@
         var parms = query.split('&');
         var names = parms[0].slice(parms[0].indexOf('=') + 1).split('+');
         console.log(names);
-        for (var i = 0; i < names.length; ++i) {
-          console.log(names[i]);
-          if (names[i] != "") {
-            scrapingAtcoder(names[i]);
-          }
-        }
-        console.log("hoge");
+        scrapingAtcoder(names[0], function(user1){
+          scrapingAtcoder(names[1], function(user2){
+            var rating = [user1, user2];
+            drawGraph(rating, names);
+          });
+        });
       });
 
       function drawGraph(rating_history, name) {
         var ctx = document.getElementById('myChart').getContext('2d');
         ctx.canvas.width = 750;         //グラフのwidth
         ctx.canvas.height = 500;        //グラフのheight
-        var m = rating_history.length;
-        var contest = [rating_history[m - 1][3]];
-        var rating = [rating_history[m - 1][1]];
+        console.log(rating_history[0]);
+        var m = rating_history[0].length;
+        var contest = [rating_history[0][m - 1][3]];
+        var rating = [rating_history[0][m - 1][1]];
         Chart.defaults.global.elements.line.tension = 0;    //グラフを直線に
         for (var i = 1; i < m; i++){
-          contest.push(rating_history[m - i][3]);
-          rating.push(rating_history[m - i][1])
+          contest.push(rating_history[0][m - i][3]);
+          rating.push(rating_history[0][m - i][1])
         }
         var myChart = new Chart(ctx, {
           type: 'line',           //グラフの種類
