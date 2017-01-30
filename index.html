@@ -57,13 +57,22 @@
         var parms = query.split('&');
         var names = parms[0].slice(parms[0].indexOf('=') + 1).split('+');
         console.log(names);
-        scrapingAtcoder(names[0], function(user1){
-          scrapingAtcoder(names[1], function(user2){
-            var rating = [user1, user2];
+        if (names.length == 1){
+          scrapingAtcoder(names[0], function(user){
+            var rating = [user];
             drawGraph(rating, names);
           });
-        });
+        }
+        if (names.length == 2){
+          scrapingAtcoder(names[0], function(user1){
+            scrapingAtcoder(names[1], function(user2){
+              var rating = [user1, user2];
+              drawGraph(rating, names);
+            });
+          });
+        }
       });
+      
 
       function drawGraph(rating_history, name) {
         var ctx = document.getElementById('myChart').getContext('2d');
