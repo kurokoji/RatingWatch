@@ -72,48 +72,115 @@
           });
         }
       });
-      
+
 
       function drawGraph(rating_history, name) {
         var ctx = document.getElementById('myChart').getContext('2d');
         ctx.canvas.width = 750;         //グラフのwidth
         ctx.canvas.height = 500;        //グラフのheight
-        console.log(rating_history[0]);
-        var m = rating_history[0].length;
-        var contest = [rating_history[0][m - 1][3]];
-        var rating = [rating_history[0][m - 1][1]];
+        console.log(rating_history[0][0]);
         Chart.defaults.global.elements.line.tension = 0;    //グラフを直線に
-        for (var i = 1; i < m; i++){
-          contest.push(rating_history[0][m - i][3]);
-          rating.push(rating_history[0][m - i][1])
-        }
-        var myChart = new Chart(ctx, {
-          type: 'line',           //グラフの種類
-          data: {
-            labels: contest,   //グラフの項目名(contest)
-            datasets: [{
-              label: name,        //グラフの名前(name)
-              data: rating,     //項目のデータ(rating)
-              backgroundColor: "rgba(153,255,51,0.4)"   //線の下の色
-            }]
-          },
-          options: {
-            scales: {
-              yAxes: [
-                {
-                  ticks: {
-                    beginAtZero: true,
-                    min: 0,
-                    max: 4000
-                  }
-                }
-              ]
-            },
-            responsive: false,
-          }
-        });
-      }
 
+        var contest = [];
+
+        if (name.length == 2){
+          var k = 0, l = 0;
+          var rating1 = [rating_history[0][0][1]];
+          var rating2 = [rating_history[1][0][1]];
+          // rating1.push(rating_history[0][0][1]);
+          // rating2.push(rating_history[1][0][1]);
+          var m = rating_history[0].length + rating_history[1].length;
+          for (var i = 1; i < m; i++){
+            if (rating_history[0].length != k && rating_history[1].length != l && rating_history[0][k][0] == rating_history[1][l][0]){
+              contest.push(rating_history[0][k][3]);
+              rating1.push(rating_history[0][k][1]);
+              rating2.push(rating_history[1][l][1]);
+              k++;
+              l++;
+            }
+            else if (rating_history[0].length != k && rating_history[0][k][0] > rating_history[1][l][0]){
+              contest.push(rating_history[0][k][3]);
+              k++;
+              rating1.push(rating_history[0][k][1]);
+              rating2.push(rating2[l]);
+            }
+            else if (rating_history[1].length != l && rating_history[0][k][0] < rating_history[1][l][0]){
+              contest.push(rating_history[1][l][3]);
+              l++;
+              rating1.push(rating1[k]);
+              rating2.push(rating_history[1][l][1]);
+            }
+          }
+          contest.reverse();
+          rating1.reverse();
+          rating2.reverse();
+          var myChart = new Chart(ctx, {
+            type: 'line',           //グラフの種類
+            data: {
+              labels: contest,   //グラフの項目名(contest)
+              datasets: [{
+                label: name[0],        //グラフの名前(name)
+                data: rating1,     //項目のデータ(rating)
+                backgroundColor: "rgba(153,255,51,0.4)"   //線の下の色
+              },
+              {
+                label: name[1],
+                data: rating2,
+                backgroundColor: "rgba(153,255,51,0.4)"
+              }]
+            },
+            options: {
+              scales: {
+                yAxes: [
+                  {
+                    ticks: {
+                      beginAtZero: true,
+                      min: 0,
+                      max: 4000
+                    }
+                  }
+                ]
+              },
+              responsive: false,
+            }
+          });
+        }
+        else {
+          var m = rating_history[0].length;
+        
+          var contest = [rating_history[0][m - 1][3]];
+          var rating = [rating_history[0][m - 1][1]];
+          for (var i = 1; i < m; i++){
+            contest.push(rating_history[0][m - i][3]);
+            rating.push(rating_history[0][m - i][1])
+          }
+          var myChart = new Chart(ctx, {
+            type: 'line',           //グラフの種類
+            data: {
+              labels: contest,   //グラフの項目名(contest)
+              datasets: [{
+                label: name,        //グラフの名前(name)
+                data: rating,     //項目のデータ(rating)
+                backgroundColor: "rgba(153,255,51,0.4)"   //線の下の色
+              }]
+            },
+            options: {
+              scales: {
+                yAxes: [
+                  {
+                    ticks: {
+                      beginAtZero: true,
+                      min: 0,
+                      max: 4000
+                    }
+                  }
+                ]
+              },
+              responsive: false,
+            }
+          });
+        }
+      }
     </script>
   </head>
 
