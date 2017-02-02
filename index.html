@@ -84,36 +84,71 @@
         var contest = [];
 
         if (name.length == 2){
-          var k = 0, l = 0;
-          var rating1 = [rating_history[0][0][1]];
-          var rating2 = [rating_history[1][0][1]];
-          // rating1.push(rating_history[0][0][1]);
-          // rating2.push(rating_history[1][0][1]);
-          var m = rating_history[0].length + rating_history[1].length;
-          for (var i = 1; i < m; i++){
-            if (rating_history[0].length != k && rating_history[1].length != l && rating_history[0][k][0] == rating_history[1][l][0]){
-              contest.push(rating_history[0][k][3]);
-              rating1.push(rating_history[0][k][1]);
-              rating2.push(rating_history[1][l][1]);
-              k++;
-              l++;
+          var rating_merge = [];
+          var rating1 = [], rating2 = [];
+          
+          for (var e of rating_history[0]) rating_merge.push([e[0], e[3]]);
+          for (var e of rating_history[1]) rating_merge.push([e[0], e[3]]);
+
+          var r = rating_merge.filter(function(v, idx, s) {
+            for (var i = 0; i < s.length; ++i) {
+              if (v[0] === s[i][0]) {
+                return i === idx;
+              }
             }
-            else if (rating_history[0].length != k && rating_history[0][k][0] > rating_history[1][l][0]){
-              contest.push(rating_history[0][k][3]);
-              k++;
-              rating1.push(rating_history[0][k][1]);
-              rating2.push(rating2[l]);
+            return false;
+          });
+          console.log(r[0]);
+
+          r.sort(function(lhs, rhs) {
+            if (lhs[0] > rhs[0]) {
+              return 1;
+            } else {
+              return -1;
             }
-            else if (rating_history[1].length != l && rating_history[0][k][0] < rating_history[1][l][0]){
-              contest.push(rating_history[1][l][3]);
-              l++;
-              rating1.push(rating1[k]);
-              rating2.push(rating_history[1][l][1]);
+          });
+          console.log(r);
+          for (var e of r) {
+            contest.push(
+              e[1].replace(/AtCoder Grand Contest/g, 'AGC').
+              replace(/AtCoder Regular Contest/g, 'ARC').
+              replace(/AtCoder Beginner Contest/g, 'ABC')
+            );
+          }
+          var max_rate = -1;
+          for (var e of r) {
+            var flg = true;
+            for (var t of rating_history[0]) {
+              if (e[0] === t[0]) {
+                max_rate = Math.max(max_rate, t[1]);
+                rating1.push(t[1]);
+                flg = false;
+              }
+            }
+            if (flg && rating1.length === 0) {
+              rating1.push(null);
+            } else if (flg) {
+              rating1.push(rating1[rating1.length - 1]);
             }
           }
-          contest.reverse();
-          rating1.reverse();
-          rating2.reverse();
+
+          for (var e of r) {
+            var flg = true;
+            for (var t of rating_history[1]) {
+              if (e[0] === t[0]) {
+                max_rate = Math.max(max_rate, t[1]);
+                rating2.push(t[1]);
+                flg = false;
+              }
+            }
+            if (flg && rating2.length === 0) {
+              rating2.push(null);
+            } else if (flg) {
+              rating2.push(rating2[rating2.length - 1]);
+            }
+          }
+
+
           var myChart = new Chart(ctx, {
             type: 'line',           //グラフの種類
             data: {
@@ -144,14 +179,19 @@
               responsive: false,
             }
           });
-        }
-        else {
+        } else {
           var m = rating_history[0].length;
         
-          var contest = [rating_history[0][m - 1][3]];
-          var rating = [rating_history[0][m - 1][1]];
+          var contest = [];
+          var rating = [];
+          var max_rate = -1;
           for (var i = 1; i < m; i++){
-            contest.push(rating_history[0][m - i][3]);
+            contest.push(rating_history[0][m - i][3].
+              replace(/AtCoder Grand Contest/g, 'AGC').
+              replace(/AtCoder Regular Contest/g, 'ARC').
+              replace(/AtCoder Beginner Contest/g, 'ABC')
+            );
+            max_rate = Math.max(max_rate, rating_history[0][m - i][1]);
             rating.push(rating_history[0][m - i][1])
           }
           var myChart = new Chart(ctx, {
@@ -213,22 +253,7 @@
               <!-- ID入力フォーム -->
               <input type="text" class="form-control" name="usr" id="atcoderid" placeholder="User ID" />
               <!-- Showボタン -->
-              <!--<button type="button" class="btn btn-success" id="show" onclick="scrapingAtcoder()">Show</button>-->
               <input type="submit" value="Show" class="btn btn-secondary user-form" data-disable-with="Show" />
-              <!--
-              <script>
-                $(function(){
-                  $("input").keydown(function(e){
-                    if ((e.which && e.whitch === 13) || (e.keyCode && e.keyCode === 13)) {
-                      scrapingAtcoder();
-                      return false;
-                    } else {
-                      return true;
-                    }
-                  });
-                });
-              </script>
-              -->
             </form>
           </div>
         </ul>
