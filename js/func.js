@@ -52,7 +52,7 @@ function addTweetButton(user) {
   var ur = window.location.href;
   console.log(ur);
   console.log(str);
-  twttr.widgets.createShareButton("", 
+  twttr.widgets.createShareButton(ur, 
   document.getElementById('tweetbutton'), {
     text: str,
     hashtag: "RatingWatch"
