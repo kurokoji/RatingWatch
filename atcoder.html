@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RatingWatch</title>
+    <!-- BootstrapのCSS読み込み -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery読み込み -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!--Chart.js読み込み-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
+    <!-- BootstrapのJS読み込み -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- jquery.xdomainajax.js -->
+    <!-- scriptタグも含むよう改造 -->
+    <script src="js/jquery.xdomainajax.js"></script>
+
+    <link rel="stylesheet" href="./css/simple-sidebar.css" />
+    <link rel="stylesheet" href="./css/my.css" />
+    
+    <!-- tweet button -->
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    <!--<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>-->
+    <!-- 自作関数 -->
+    <script src="js/func.js"></script>
+  </head>
+
+  <body>
+    <!-- ナビゲーションバー -->
+    <nav class="navbar navbar-full navbar-fixed-top navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand">RatingWatch</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Atcoder</a></li>
+          <!--<li class="active"><a href="#">Topcoder</a></li>-->
+          <!--<li class="active"><a href="#">Codeforces</a></li>-->
+        </ul>
+      </div>
+    </nav>
+
+    <div id="wrapper">
+      <!-- サイドバー -->
+      <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-brand">
+            <a href="#">
+              Atcoder
+            </a>
+          </li>
+          <div class="form-inline">
+            <form method="GET">
+              <!-- ID入力フォーム -->
+              <input type="text" class="form-control" name="usr" id="atcoderid" placeholder="User ID" />
+              <!-- Showボタン -->
+              <input type="submit" value="Show" class="btn btn-secondary user-form" data-disable-with="Show" />
+            </form>
+            <script type="text/javascript" async src="//platform.twitter.com/widgets.js"></script>
+            <a id="tweetbutton"></a>
+          </div>
+        </ul>
+      </div>
+
+      <!-- 本文 -->
+      <div id="page-content-wrapper">
+        <div class="cotainer-fluid">
+          <div class="row">
+            <div class="col-lg-12">
+              <p><a class="username"><span></span></a></p>
+              <p><a class="username"><span></span></a></p>
+              <canvas id="myChart"></canvas> <!--グラフ描写領域-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>
