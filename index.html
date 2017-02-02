@@ -31,7 +31,7 @@
             var src = data.responseText;
             var jsonStr = getAtcoderJSON(src);
             if (jsonStr == null) {
-              alert("ユーザ名が空，もしくは間違っています");
+              alert("ユーザ名が間違っています");
               return;
             }
             var rating_history = JSON.parse(jsonStr);
@@ -56,14 +56,19 @@
         var query = window.location.search.substring(1);
         var parms = query.split('&');
         var names = parms[0].slice(parms[0].indexOf('=') + 1).split('+');
+        document.getElementById('atcoderid').value = names.join(' ');
         console.log(names);
-        if (names.length == 1){
+        
+        if (names.length === 1){
+          if (names[0] === "") {
+            return;
+          }
           scrapingAtcoder(names[0], function(user){
             var rating = [user];
             drawGraph(rating, names);
           });
         }
-        if (names.length == 2){
+        if (names.length === 2){
           scrapingAtcoder(names[0], function(user1){
             scrapingAtcoder(names[1], function(user2){
               var rating = [user1, user2];
@@ -264,7 +269,6 @@
         <div class="cotainer-fluid">
           <div class="row">
             <div class="col-lg-12">
-              <p>Shinobu</p>
               <canvas id="myChart"></canvas> <!--グラフ描写領域-->
             </div>
           </div>
