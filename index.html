@@ -161,7 +161,7 @@
               {
                 label: name[1],
                 data: rating2,
-                backgroundColor: "rgba(153,255,51,0.4)"
+                backgroundColor: "rgba(219,36,91,0.4)"
               }]
             },
             options: {
@@ -171,7 +171,7 @@
                     ticks: {
                       beginAtZero: true,
                       min: 0,
-                      max: 4000
+                      max: Math.ceil(max_rate / 1000) * 1000
                     }
                   }
                 ]
@@ -211,7 +211,7 @@
                     ticks: {
                       beginAtZero: true,
                       min: 0,
-                      max: 4000
+                      max: Math.ceil(max_rate / 1000) * 1000
                     }
                   }
                 ]
