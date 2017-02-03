@@ -96,8 +96,8 @@ $(document).ready(function retrieveGETqs() {
       rates.push(rating[0][0][1]);
       drawGraph(rating, names);
     });
-    setTimeout(addUserElement, 1000, names[0], 0);
-    setTimeout(addTweetButton, 1000, names);
+    setTimeout(addUserElement, 2000, names[0], 0);
+    setTimeout(addTweetButton, 2000, names);
   }
   if (names.length === 2){
     scrapingAtcoder(names[0], function(user1){
@@ -108,9 +108,9 @@ $(document).ready(function retrieveGETqs() {
         drawGraph(rating, names);
       });
     });
-    setTimeout(addUserElement, 1000, names[0], 0);
-    setTimeout(addUserElement, 1000, names[1], 1);
-    setTimeout(addTweetButton, 1000, names);
+    setTimeout(addUserElement, 2000, names[0], 0);
+    setTimeout(addUserElement, 2000, names[1], 1);
+    setTimeout(addTweetButton, 2000, names);
   }
   for (var e of colors) console.log(e);
 });
