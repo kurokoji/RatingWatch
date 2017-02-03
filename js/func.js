@@ -38,7 +38,7 @@ function addTweetButton(user) {
     str = user[0] + "'s rate is " + rates[0];
   } else {
     if (rates[0] === rates[1]) {
-      str = user[0] + " and " + user[1] + "'s rate is " + rates[0] + ".\nDraw!!";
+      str = user[0] + "'s and " + user[1] + "'s rate is " + rates[0] + ".\nDraw!!";
     } else {
       str = user[0] + "'s rate is " + rates[0] + ".\n" + 
             user[1] + "'s rate is " + rates[1] + ".\n";
