@@ -55,7 +55,7 @@ function addTweetButton(user) {
   twttr.widgets.createShareButton(ur, 
   document.getElementById('tweetbutton'), {
     text: str,
-    hashtag: "RatingWatch"
+    hashtag: "AtCoderRatingWatch"
   }
   );
 }
