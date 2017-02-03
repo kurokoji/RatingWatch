@@ -227,14 +227,14 @@ function drawGraph(rating_history, name) {
     var contest = [];
     var rating = [];
     var max_rate = -1;
-    for (var i = 1; i < m; i++){
-      contest.push(rating_history[0][m - i][3].
+    for (var i = 0; i < m; i++){
+      contest.push(rating_history[0][m - i - 1][3].
         replace(/AtCoder Grand Contest/g, 'AGC').
         replace(/AtCoder Regular Contest/g, 'ARC').
         replace(/AtCoder Beginner Contest/g, 'ABC')
       );
-      max_rate = Math.max(max_rate, rating_history[0][m - i][1]);
-      rating.push(rating_history[0][m - i][1])
+      max_rate = Math.max(max_rate, rating_history[0][m - i - 1][1]);
+      rating.push(rating_history[0][m - i - 1][1])
     }
     var myChart = new Chart(ctx, {
       type: 'line',           //グラフの種類
