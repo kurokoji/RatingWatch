@@ -24,7 +24,7 @@ function scrapingAtcoder(userid, cb) {
 }
 
 function addUserElement(user, idx) {
-  var a = document.getElementsByTagName("a").item(idx);
+  var a = document.getElementsByTagName("a").item(idx + 4);
   var sp = document.getElementsByTagName("span").item(idx);
   console.log(colors[idx]);
   a.href = "https://atcoder.jp/user/" + user;

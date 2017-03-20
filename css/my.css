@@ -1,6 +1,20 @@
+#wrapper {
+  padding-left: 250px; !important;
+}
+
 #sidebar-wrapper {
   background: #455A64 !important;
+  width: 250px !important;
 }
+
+#wrapper.toggled {
+  padding-left: 250px; !important;
+}
+
+a:link { color:#0000ff; text-decoration:none }
+a:visited { color:#0000ff; text-decoration:none }
+a:hover { color:#0000ff; text-decoration:none }
+a:active { color:#0000ff; text-decoration:none }
 
 .sidebar-nav > .sidebar-brand a {
   color: #d8cfcf !important;
