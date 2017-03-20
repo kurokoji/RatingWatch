@@ -28,6 +28,7 @@ function addUserElement(user, idx) {
   var sp = document.getElementsByTagName("span").item(idx);
   console.log(colors[idx]);
   a.href = "https://atcoder.jp/user/" + user;
+  a.target = "_blank"
   sp.className = colors[idx];
   sp.innerHTML = user + " [" + rates[idx] + "]";
 }
