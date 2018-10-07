@@ -2,12 +2,19 @@ var colors = [];
 var rates = [];
 
 function scrapingAtcoder(userid, cb) {
+  var url = "http://atcoder.jp/user/" + userid;
   $.ajax({
     type: 'GET',
-    url: "https://atcoder.jp/user/" + userid,
-    dataType: 'html',
+    url: "https://query.yahooapis.com/v1/public/yql",
+    dataType: 'json',
+    data: {
+      "q": "select * from htmlstring where url='" + url + "'",
+      "format": "json",
+      "diagnostics": true,
+      "env": "store://datatables.org/alltableswithkeys"
+    },
     success: function(data) {
-      var src = data.responseText;
+      var src = data["query"]["results"]["result"];
       var usrc = getUserColor(src);
       var jsonStr = getAtcoderJSON(src);
       if (jsonStr == null) {
